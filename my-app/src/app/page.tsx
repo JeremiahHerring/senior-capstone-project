@@ -1,9 +1,17 @@
-export default function Home() {
+import { options } from "./api/auth/[...nextauth]/options"
+import { getServerSession } from "next-auth/next"
+import UserCard from "./components/UserCard"
+
+export default async function Home() {
+  const session = await getServerSession(options)
+
   return (
-    <section className="py-24">
-      <div className="container">
-        <h1 className="text-3xl font-bold">Senior Capstone</h1>
-      </div>
-    </section>
+    <>
+      {session ? (
+        <UserCard user={session?.user} pagetype={"Home"} />
+      ) : (
+        <h1 className="text-5xl">You Shall Not Pass!</h1>
+      )}
+    </>
   )
 }
